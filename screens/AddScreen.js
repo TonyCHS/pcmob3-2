@@ -14,16 +14,18 @@ import {
 } from "@expo-google-fonts/snowburst-one";
 
 export default function AddScreen({ route, navigation }) {
+  let bouncyCheckboxRef = null;
   const [text, setText] = useState("");
-  const [done, setDone] = useState("");
+  const [done, setDone] = useState(false);
 
   let [fontsLoaded] = useFonts({
     SnowburstOne_400Regular,
   });
 
-  function onCheckmarkPress() {
+  const onClick = (e) => {
     setDone(!done);
-  }
+    console.log(!done);
+  };
 
   if (!fontsLoaded) {
     return <AppLoading />;
@@ -37,6 +39,8 @@ export default function AddScreen({ route, navigation }) {
           onChangeText={(newText) => setText(newText)}
         ></TextInput>
         <BouncyCheckbox
+          // isChecked={done}
+          ref={(ref) => (bouncyCheckboxRef = ref)}
           size={25}
           fillColor="orange"
           unfillColor="#FFFFFF"
@@ -47,7 +51,7 @@ export default function AddScreen({ route, navigation }) {
             fontFamily: "SnowburstOne_400Regular",
             textDecorationLine: "none",
           }}
-          isChecked={done}
+          onPress={onClick}
         />
 
         <View style={styles.buttons}>
@@ -111,5 +115,10 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     backgroundColor: "red",
+  },
+  bodytype: {
+    marginTop: 5,
+    fontWeight: "bold",
+    fontSize: 20,
   },
 });

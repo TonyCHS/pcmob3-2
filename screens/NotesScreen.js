@@ -70,8 +70,8 @@ export default function NotesScreen({ route, navigation }) {
     if (route.params?.text) {
       db.transaction(
         (tx) => {
-          tx.executeSql("INSERT INTO notes (done, title) VALUES (?, ?)", [
-            route.params.checkboxState,
+          tx.executeSql("INSERT INTO notes (done, title) VALUES (done, ?)", [
+            route.params.done,
             route.params.text,
           ]);
         },
@@ -85,7 +85,7 @@ export default function NotesScreen({ route, navigation }) {
       const newNote = {
         title: route.params.text,
         done: route.params.done,
-        // done: false,
+        // done: true,
         id: notes.length.toString(),
       };
       setNotes([...notes, newNote]);
@@ -125,6 +125,7 @@ export default function NotesScreen({ route, navigation }) {
           size={25}
           fillColor="orange"
           unfillColor="#FFFFFF"
+          isChecked={item.done}
           text={item.title}
           iconStyle={{ borderColor: "orange" }}
           textStyle={{
@@ -133,8 +134,6 @@ export default function NotesScreen({ route, navigation }) {
             // onPress={(isChecked: boolean) => {}}
           }}
         />
-        {/* 
-        <Text style={{ textAlign: "left", fontSize: 16 }}>{item.title}</Text> */}
 
         <TouchableOpacity onPress={() => deleteNote(item.id)}>
           <Entypo name="trash" size={30} color="sienna" />
