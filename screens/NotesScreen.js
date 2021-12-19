@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   Switch,
 } from "react-native";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
+import AppLoading from "expo-app-loading";
+import { useFonts, Aclonica_400Regular } from "@expo-google-fonts/aclonica";
 
 import { Entypo } from "@expo/vector-icons";
 import * as SQLite from "expo-sqlite";
@@ -14,8 +17,9 @@ import * as SQLite from "expo-sqlite";
 const db = SQLite.openDatabase("notes.db");
 
 export default function NotesScreen({ route, navigation }) {
-  const [isEnabled, setIsEnabled] = useState(false);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  let [fontsLoaded] = useFonts({
+    Aclonica_400Regular,
+  });
 
   const [notes, setNotes] = useState([]);
   // { title: "Walk the cat", done: false, id: "0" },
@@ -39,7 +43,7 @@ export default function NotesScreen({ route, navigation }) {
           `CREATE TABLE IF NOT EXISTS notes
       (id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT,
-        done INT)`
+        done TEXT)`
         );
       },
       null,
@@ -66,7 +70,8 @@ export default function NotesScreen({ route, navigation }) {
     if (route.params?.text) {
       db.transaction(
         (tx) => {
-          tx.executeSql("INSERT INTO notes (done, title) VALUES (0, ?)", [
+          tx.executeSql("INSERT INTO notes (done, title) VALUES (?, ?)", [
+            route.params.checkboxState,
             route.params.text,
           ]);
         },
@@ -74,9 +79,13 @@ export default function NotesScreen({ route, navigation }) {
         refreshNotes
       );
 
+      console.log(route.params.done);
+      console.log(route.params.text);
+
       const newNote = {
         title: route.params.text,
-        done: false,
+        done: route.params.done,
+        // done: false,
         id: notes.length.toString(),
       };
       setNotes([...notes, newNote]);
@@ -112,39 +121,47 @@ export default function NotesScreen({ route, navigation }) {
           justifyContent: "space-between",
         }}
       >
-        <Switch
-          trackColor={{ false: "#767577", true: "#81b0ff" }}
-          thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
-          ios_backgroundColor="#3e3e3e"
-          value={isEnabled}
-          //   value={item.done}
-          onValueChange={toggleSwitch}
+        <BouncyCheckbox
+          size={25}
+          fillColor="orange"
+          unfillColor="#FFFFFF"
+          text={item.title}
+          iconStyle={{ borderColor: "orange" }}
+          textStyle={{
+            fontSize: 20,
+            fontFamily: "Aclonica_400Regular",
+            // onPress={(isChecked: boolean) => {}}
+          }}
         />
-
-        <Text style={{ textAlign: "left", fontSize: 16 }}>{item.title}</Text>
+        {/* 
+        <Text style={{ textAlign: "left", fontSize: 16 }}>{item.title}</Text> */}
 
         <TouchableOpacity onPress={() => deleteNote(item.id)}>
-          <Entypo name="trash" size={30} color="blue" />
+          <Entypo name="trash" size={30} color="sienna" />
         </TouchableOpacity>
       </View>
     );
   }
 
-  return (
-    <View style={styles.container}>
-      <FlatList
-        style={{ width: "100%" }}
-        data={notes}
-        renderItem={renderItem}
-      />
-    </View>
-  );
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return (
+      <View style={styles.container}>
+        <FlatList
+          style={{ width: "100%" }}
+          data={notes}
+          renderItem={renderItem}
+        />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffc",
+    // backgroundColor: "#ffc",
     alignItems: "center",
     justifyContent: "center",
   },

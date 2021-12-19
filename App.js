@@ -9,7 +9,6 @@ import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
 import NotesStack from "./screens/NotesStack";
 import AddScreen from "./screens/AddScreen";
 
-// Note: Missing line
 function NotesScreen({ navigation }) {
   const [notes, setNotes] = useState([
     { title: "Walk the cat", done: false, id: "0" },
@@ -65,50 +64,11 @@ function NotesScreen({ navigation }) {
 
 const InnerStack = createStackNavigator();
 
-// function NotesStack() {
-//   return (
-//     <InnerStack.Navigator>
-//       <InnerStack.Screen
-//         name="Notes"
-//         component={NotesScreen}
-//         options={{
-//           headerTitle: "Notes App",
-//           headerTitleStyle: {
-//             fontWeight: "bold",
-//             fontSize: 30,
-//           },
-//           headerStyle: {
-//             height: 120,
-//             backgroundColor: "yellow",
-//             borderBottomColor: "#ccc",
-//             borderBottomWidth: 1,
-//           },
-//         }}
-//       />
-//     </InnerStack.Navigator>
-//   );
-// }
-
-// function AddScreen({ navigation }) {
-//   return (
-//     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-//       <Text>This is the add screen</Text>
-//       <TouchableOpacity
-//         onPress={() => navigation.goBack()}
-//         style={{ padding: 10 }}
-//       >
-//         <Text style={{ color: "orange" }}>Dismiss</Text>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// }
-
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator mode="modal" headerMode="none"> */}
       <Stack.Navigator>
         <Stack.Screen
           name="Notes Stack"
@@ -124,7 +84,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ffc",
+    // backgroundColor: "#ffc",
     alignItems: "center",
     justifyContent: "center",
   },

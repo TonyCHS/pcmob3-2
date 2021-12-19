@@ -10,9 +10,14 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo-google-fonts/aclonica": "^0.2.0",
     "@expo-google-fonts/inter": "^0.2.0",
+    "@expo-google-fonts/josefin-sans": "^0.2.0",
     "@expo-google-fonts/merienda": "^0.2.0",
+    "@expo-google-fonts/snowburst-one": "^0.2.0",
     "@expo/vector-icons": "^12.0.0",
+    "@ezri00/trackapp": "^1.0.0",
+    "@paraboly/react-native-multiselect-picker": "^0.1.1",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/drawer": "^6.1.8",
@@ -33,7 +38,7 @@
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
-    "react-native-bouncy-checkbox": "^2.1.8",
+    "react-native-bouncy-checkbox": "^2.1.9",
     "react-native-checkbox-reanimated": "^0.1.0",
     "react-native-gesture-handler": "~2.1.0",
     "react-native-paper": "^4.11.1",
